@@ -60,11 +60,13 @@ El contenido de `client` fue creado usando: Create React App.
 
 ## Enunciado
 
-La idea general es crear una aplicación en la cual se puedan ver información de  distintos paises utilizando la api externa [restcountries](https://restcountries.eu/) y a partir de ella poder, entre otras cosas:
+La idea general es crear una aplicación en la cual se puedan ver distintas recetas de comida junto con información relevante de las mismas utilizando la api externa [spoonacular](https://spoonacular.com/food-api) y a partir de ella poder, entre otras cosas:
 
-  - Buscar paises
+  - Buscar recetas
   - Filtrarlos / Ordenarlos
-  - Crear actividades turísticas
+  - Crear nuevas recetas propias
+
+__IMPORTANTE__: Para poder utilizar esta API externa es necesario crearse una cuenta para obtener una API Key que uego debera ser incluida en todos los request que hagamos a spoonacular simplemente agregando `?apiKey={YOUR_API_KEY}` al final de cada endpoint. Agregar la clave en el archivo `.env` para que la misma no se suba al repositorio por cuestiones de seguridad y utilizarla desde allí.
 
 ### Requerimientos mínimos:
 
@@ -87,72 +89,66 @@ __Pagina inicial__: deben armar una landing page con
 - [ ] Botón para ingresar al home (`Ruta principal`)
 
 __Ruta principal__: debe contener
-- [ ] Input de búsqueda para encontrar países por nombre
-- [ ] Área donde se verá el listado de países. Al iniciar deberá cargar los primeros resultados obtenidos desde la ruta `GET /countries` y deberá mostrar su:
-  - Imagen de la bandera
+- [ ] Input de búsqueda para encontrar recetas por nombre
+- [ ] Área donde se verá el listado de recetas. Deberá mostrar su:
+  - Imagen
   - Nombre
-  - Continente
-- [ ] Botones/Opciones para filtrar por continente y por tipo de actividad turística
-- [ ] Botones/Opciones para ordenar los paises
-- [ ] Paginado para ir buscando y mostrando los siguientes paises
+  - Tipo de comida (vegetarinao, vegano, apto celíaco, etc)
+- [ ] Botones/Opciones para filtrar por por tipo de comida
+- [ ] Botones/Opciones para ordenar las recetas
+- [ ] Paginado para ir buscando y mostrando las siguientes recetas
 
-__Ruta de detalle de país__: debe contener
-- [ ] Los campos mostrados en la ruta principal para cada país (imagen de la bandera, nombre, código de país de 3 letras y continente)
-- [ ] Código de país de 3 letras (id)
-- [ ] Capital
-- [ ] Subregión
-- [ ] Área (Mostrarla en km2 o millones de km2)
-- [ ] Población
-- [ ] Actividades turísticas con toda su información asociada
+__Ruta de detalle de receta__: debe contener
+- [ ] Los campos mostrados en la ruta principal para cada receta (imagen, nombre, tipo de plato y tipo de comida)
+- [ ] Resumen del plato
+- [ ] Puntuación
+- [ ] Nivel de "comida saludable"
+- [ ] Paso a paso
 
-__Ruta de creación de actividad turística__: debe contener
+__Ruta de creación de recetas__: debe contener
 - [ ] Un formulario __controlado__ con los siguientes campos
   - Nombre
-  - Dificultad
-  - Duración
-  - Temporada
-- [ ] Posibilidad de seleccionar/agregar varios países
-- [ ] Botón/Opción para crear una nueva actividad turística
+  - Resumen del plato
+  - Puntuación
+  - Nivel de "comida saludable"
+  - Paso a paso
+- [ ] Posibilidad de seleccionar/agregar varios tipos de comidas
+- [ ] Botón/Opción para crear una nueva receta
 
 #### Base de datos
 
 El modelo de la base de datos deberá tener las siguientes entidades (Aquellas propiedades marcadas con asterísco deben ser obligatorias):
 
-- [ ] País con las siguientes propiedades:
-  - ID (Código de 3 letras) *
+- [ ] Receta con las siguientes propiedades:
+  - ID: * No puede ser un ID de una receta ya existente en la API spoonacular
   - Nombre *
-  - Imagen de la bandera *
-  - Continente *
-  - Capital *
-  - Subregión
-  - Área
-  - Población
-- [ ] Actividad Turística con las siguientes propiedades:
+  - Resumen del plato *
+  - Puntuación
+  - Nivel de "comida saludable"
+  - Paso a paso
+- [ ] Tipo de comida con las siguientes propiedades:
   - ID
   - Nombre
-  - Dificultad (Entre 1 y 5)
-  - Duración
-  - Temporada (Verano, Otoño, Invierno o Primavera)
 
-La relación entre ambas entidades debe ser de muchos a muchos ya que un país puede contener varias actividades turísticas y, a su vez, una actividad turística puede darse en múltiples países. Por ejemplo una actividad podría ser "Ski" que podría ocurrir en Argentina y también en Estados Unidos, pero a su vez Argentina podría también incluir "Rafting".
+La relación entre ambas entidades debe ser de muchos a muchos ya que una receta puede ser parte de varios tipos de comida en simultaneo y, a su vez, un tipo de comida puede contener múltiples recetas distintas. Un ejemplo tomado de la API sería el `Strawberry Mango Green Tea Limeade` que es vegetariano, vegano y apto para celíacos, todo al mismo tiempo. Pero a su vez existen otras recetas para vegetarianos.
 
 #### Backend
 
 Se debe desarrollar un servidor en Node/Express con las siguientes rutas:
 
-- [ ] __GET /countries__:
-  - En una primera instancia deberán traer todos los países desde restcountries y guardarlos en su propia base de datos y luego ya utilizarlos desde allí (Debe almacenar solo los datos necesarios para la ruta principal)
-  - Obtener un listado de los primeros 10 países
-- [ ] __GET /countries/{idPais}__:
-  - Obtener el detalle de un país en particular
-  - Debe traer solo los datos pedidos en la ruta de detalle de país
-  - Incluir los datos de las actividades turísticas correspondientes
-- [ ] __GET /countries?name="..."__:
-  - Obtener los países que coincidan con el nombre pasado como query parameter (No necesariamente tiene que ser una matcheo exacto)
+- [ ] __GET /recipes?name="..."__:
+  - Obtener un listado de las primeras 9 recetas que contengan la palabra ingresada como query paraeter
   - Si no existe ningún país mostrar un mensaje adecuado
-- [ ] __POST /activity__:
-  - Recibe los datos recolectados desde el formulario controlado de la ruta de creación de actividad turística por body
-  - Crea una actividad turística en la base de datos
+- [ ] __GET /recipes/{idReceta}__:
+  - Obtener el detalle de una receta en particular
+  - Debe traer solo los datos pedidos en la ruta de detalle de receta
+  - Incluir los tipos de comida asociados
+- [ ] __GET /types__:
+  - Obtener todos los tipos de comida posibles
+  - En una primera instancia, cuando no exista ninguno, deberán precargar la base de datos con los tipos de datos indicados por spoonacular [acá](https://spoonacular.com/food-api/docs#Diets)
+- [ ] __POST /recipe__:
+  - Recibe los datos recolectados desde el formulario controlado de la ruta de creación de recetas por body
+  - Crea una receta en la base de datos
 
 
 #### Testing
