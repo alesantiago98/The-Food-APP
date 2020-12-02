@@ -136,6 +136,8 @@ La relación entre ambas entidades debe ser de muchos a muchos ya que una receta
 
 Se debe desarrollar un servidor en Node/Express con las siguientes rutas:
 
+__IMPORTANTE__: No está permitido utilizar los filtrados, ordenamientos y paginados brindados por la API externa, todas estas funcionalidades tienen que implementarlas ustedes.
+
 - [ ] __GET /recipes?name="..."__:
   - Obtener un listado de las primeras 9 recetas que contengan la palabra ingresada como query paraeter
   - Si no existe ningún país mostrar un mensaje adecuado
