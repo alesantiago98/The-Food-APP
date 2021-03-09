@@ -142,7 +142,7 @@ __IMPORTANTE__: No está permitido utilizar los filtrados, ordenamientos y pagin
 
 - [ ] __GET /recipes?name="..."__:
   - Obtener un listado de las primeras 9 recetas que contengan la palabra ingresada como query paraeter
-  - Si no existe ningún país mostrar un mensaje adecuado
+  - Si no existe ninguna receta mostrar un mensaje adecuado
 - [ ] __GET /recipes/{idReceta}__:
   - Obtener el detalle de una receta en particular
   - Debe traer solo los datos pedidos en la ruta de detalle de receta
