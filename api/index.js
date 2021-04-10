@@ -42,7 +42,7 @@ conn.sync({ force: true }).then(() => {
     });
     const ovovegetarian = Diet.create({
       name: 'Ovo-Vegetarian',
-      description : 'All ingredients must be vegetarian and none of the ingredients can be or contain dairy.'
+      description: 'All ingredients must be vegetarian and none of the ingredients can be or contain dairy.'
     });
     const vegan = Diet.create({
       name: 'Vegan',
@@ -65,7 +65,7 @@ conn.sync({ force: true }).then(() => {
       description: 'Allowed ingredients include meat, fish/seafood, eggs, vegetables, fresh fruit, coconut oil, olive oil, small amounts of dried fruit and nuts/seeds. Ingredients not allowed include added sweeteners (natural and artificial, except small amounts of fruit juice), dairy (except clarified butter or ghee), alcohol, grains, legumes (except green beans, sugar snap peas, and snow peas), and food additives, such as carrageenan, MSG, and sulfites.'
     });
 
-    Promise.all([glutenFree, ketogenic, vegetarian, lactovegetarian, 
+    Promise.all([glutenFree, ketogenic, vegetarian, lactovegetarian,
       ovovegetarian, vegan, pescetarian, paleo, primal, whole])
       .then(res => console.log('Diets created'))
   });
