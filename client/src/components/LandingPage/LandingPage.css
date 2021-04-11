@@ -1,0 +1,32 @@
+.LandingPage{
+  height: 100vh;
+  background-image: url('https://images.unsplash.com/photo-1516824711718-9c1e683412ac?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1502&q=80');
+  background-repeat: no-repeat;
+  background-size: cover; 
+  background-position: 50% 25% ;
+  position: relative;
+}
+.Link{
+  text-decoration: none;
+  color: rgb(230, 230, 230);
+}
+#info{
+  position: absolute;
+  top: 25%;
+  left: 38%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+#HomeButton{
+  background-color: rgb(40, 40, 40);
+  color: rgb(200, 200, 200);
+  outline: none;
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+  border: none;
+}
+#AppTitle{
+  color: rgb(8,8,3)
+}
