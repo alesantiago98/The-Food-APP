@@ -6,16 +6,19 @@ import About from './components/About/About';
 import Favorites from './components/Favorites/Favorites'
 import RecipeDetails from './components/RecipeDetails/RecipeDetails';
 import { Route } from 'react-router-dom';
+import NewRecipe from './components/NewRecipes/NewRecipe';
 
 function App() {
+  const routes = ['/home', '/about', '/favorites', '/recipe/:recipeId', '/newRecipe']
   return (
     <div className="App">
-      <Route path='/' component={LandingPage} />
-      <Route path='/home' component={NavBar} />
-      <Route exact path='/home' component={Recipes}/>
-      <Route path='/about' component={About} />
-      <Route path='/favorites' component={Favorites}/>
-      <Route path='/recipe/:recipeId' component={RecipeDetails}/>
+      <Route exact path='/' component={LandingPage} />
+      <Route path={routes} component={NavBar} />
+      <Route exact path={routes[0]} component={Recipes} />
+      <Route path={routes[1]} component={About} />
+      <Route path={routes[2]} component={Favorites} />
+      <Route path={routes[3]} component={RecipeDetails} />
+      <Route path={routes[4]} component={NewRecipe} />
     </div>
   );
 }

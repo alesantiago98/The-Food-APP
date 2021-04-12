@@ -8,10 +8,7 @@ const Op = Sequelize.Op;
 
 router.get('/', (req, res) => {
   //Imagen, Nombre, Tipo de dieta (vegetariano, vegano, apto celíaco, etc)
-  let { name, page } = req.query;
-  page ? page : page = 1;
-  const offset = (page - 1) * 9;
-  const limit = page * 9;
+  let { name } = req.query;
   if (name) {
     const apiRecipes = axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&query=${name}`)
     const dbRecipes = Recipe.findAll({
@@ -31,9 +28,10 @@ router.get('/', (req, res) => {
               id: r.id,
               img: r.image,
               name: r.name,
-              diet: r.diets
+              diet: r.diets,
+              score: r.spoonacularScore
             }))
-          res.send(ultimateRecipes.slice(offset, limit))
+          res.send(ultimateRecipes)
         } else {
           res.send({ msg: 'Could not find any recipe for that name' })
         }
@@ -51,8 +49,9 @@ router.get('/', (req, res) => {
           id: r.id,
           img: r.image,
           name: r.title,
-          diet: r.diets
-        })).slice(offset, limit)
+          diet: r.diets,
+          score: r.spoonacularScore
+        }))
         res.send(ultimateRecipes)
       })
       .catch(err => console.error(err));

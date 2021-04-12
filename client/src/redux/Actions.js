@@ -15,9 +15,9 @@ export function getRecipes() {
   };
 };
 
-export function searchRecipes(recipe) {
+export function searchRecipes(recipe, page) {
   return function (dispatch) {
-    axios.get(`http://localhost:3001/recipe?name=${recipe}`)
+    axios.get(`http://localhost:3001/recipe?name=${recipe}&page=${page}`)
       .then(res => dispatch({
         type: 'SEARCH_RECIPES',
         payload: res.data
@@ -41,6 +41,21 @@ export function searchRecipeDetail(recipeId) {
   };
 };
 
+export function addRecipe({ name, summary, score, healthyFoodLevel, stepByStep, diets }) {
+  return function (dispatch) {
+    const Recipe = { name, summary, score, healthyFoodLevel, stepByStep, diets }
+    console.log(Recipe)
+    axios.post('http://localhost:3001/recipe/', Recipe)
+      .then(res => dispatch({
+        type: 'ADD_RECIPE',
+        payload: res.data
+      })
+      ).catch(err => {
+        console.error(err)
+      });
+  }
+}
+
 export function addToFavorites(recipe) {
   return {
     type: 'ADD_RECIPE_TO_FAVORITES',
@@ -52,5 +67,18 @@ export function removeFromFavorites(recipe) {
   return {
     type: 'REMOVE_RECIPE_FROM_FAVORITES',
     payload: recipe
+  };
+};
+
+export function getDiets() {
+  return function (dispatch) {
+    axios.get(`http://localhost:3001/types`)
+      .then(res => dispatch({
+        type: 'ALL_DIETS',
+        payload: res.data
+      })
+      ).catch(err => {
+        console.error(err)
+      });
   };
 };

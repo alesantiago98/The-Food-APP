@@ -37,11 +37,11 @@ conn.sync({ force: true }).then(() => {
       description: 'No ingredients may contain meat or meat by-products, such as bones or gelatin.'
     });
     const lactovegetarian = Diet.create({
-      name: 'Lacto-Vegetarian',
+      name: 'Lacto Vegetarian',
       description: 'All ingredients must be vegetarian and none of the ingredients can be or contain egg.'
     });
     const ovovegetarian = Diet.create({
-      name: 'Ovo-Vegetarian',
+      name: 'Ovo Vegetarian',
       description: 'All ingredients must be vegetarian and none of the ingredients can be or contain dairy.'
     });
     const vegan = Diet.create({
@@ -53,7 +53,7 @@ conn.sync({ force: true }).then(() => {
       description: 'Everything is allowed except meat and meat by-products - some pescetarians eat eggs and dairy, some do not.'
     });
     const paleo = Diet.create({
-      name: 'Paleo',
+      name: 'Paleolithic',
       description: 'Allowed ingredients include meat (especially grass fed), fish, eggs, vegetables, some oils (e.g. coconut and olive oil), and in smaller quantities, fruit, nuts, and sweet potatoes. We also allow honey and maple syrup (popular in Paleo desserts, but strict Paleo followers may disagree). Ingredients not allowed include legumes (e.g. beans and lentils), grains, dairy, refined sugar, and processed foods.'
     });
     const primal = Diet.create({
@@ -61,7 +61,7 @@ conn.sync({ force: true }).then(() => {
       description: 'Very similar to Paleo, except dairy is allowed - think raw and full fat milk, butter, ghee, etc.'
     });
     const whole = Diet.create({
-      name: 'Whole30',
+      name: 'Whole 30',
       description: 'Allowed ingredients include meat, fish/seafood, eggs, vegetables, fresh fruit, coconut oil, olive oil, small amounts of dried fruit and nuts/seeds. Ingredients not allowed include added sweeteners (natural and artificial, except small amounts of fruit juice), dairy (except clarified butter or ghee), alcohol, grains, legumes (except green beans, sugar snap peas, and snow peas), and food additives, such as carrageenan, MSG, and sulfites.'
     });
 
