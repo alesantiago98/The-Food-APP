@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
         name: {
           [Op.like]: `%${name}%`
         }
-      }
+      }, include: Diet
     })
     Promise.all([apiRecipes, dbRecipes])
       .then(r => {
@@ -27,9 +27,9 @@ router.get('/', (req, res) => {
             {
               id: r.id,
               img: r.image,
-              name: r.name,
-              diet: r.diets,
-              score: r.spoonacularScore
+              name: (r.name ? r.name : r.title),
+              diet: (r.diet ? r.diet : r.diets),
+              score: (r.score ? r.score : r.spoonacularScore) 
             }))
           res.send(ultimateRecipes)
         } else {
@@ -73,7 +73,7 @@ router.get('/:recipeId', (req, res) => {
         {
           id: response.data.id,
           img: response.data.image,
-          name: response.data.name,
+          name: response.data.title,
           diet: response.data.diets,
           summary: response.data.summary,
           healthyFoodLevel: response.data.healthScore,
@@ -85,7 +85,7 @@ router.get('/:recipeId', (req, res) => {
       .catch(err => console.error(err));
   } else {
     Recipe.findByPk(recipeId, { include: Diet })
-      .then(data => res.send(data))
+      .then(data => {console.log(data); res.send(data)})
       .catch(err => console.error(err));
   }
 });

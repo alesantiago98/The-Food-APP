@@ -25,23 +25,24 @@ function Recipe(props) {
       return props.removeFromFavorites(props.id)
     }
     else {
-      return props.addToFavorites(props.id)
+      return props.addToFavorites(props)
     }
   }
 
   return (
     <div className='Recipe' >
       <h3 className='RecipeName'>{props.name}</h3>
-      <div className='Diets'>
+      <div className='RecipeInfo'><div className='Diets'>
         {props.diets.filter(d => props.diet.includes(d.name.toLowerCase()))
-          .map(d => <span key={props.name + d.name}>{d.name}</span>)}
+          .map(d => <span className='diets' key={props.name + d.name}>{d.name}</span>)}
+      </div>
+      <div>Score: {props.score}</div>
       </div>
       <img src={props.img} className='RecipeImage' alt='recipe' />
-      <div>{props.score}</div>
       <Link to={`/recipe/${props.id}`}>
-        <button onClick={() => props.searchRecipeDetail(props.id)} id='MoreInfo'>More Info</button>
+        <button onClick={() => props.searchRecipeDetail(props.id)} className='MoreInfo'>More Info</button>
       </Link>
-      <button id='ButtonFavorite' onClick={() => { addRecipeToFavorites(); toggle(); }}>
+      <button className='ButtonFavorite' onClick={() => { addRecipeToFavorites(); toggle() }}>
         <img className={active ? 'active' : 'inactive'} src={staricon} alt='favorite icon' />
       </button>
     </div>

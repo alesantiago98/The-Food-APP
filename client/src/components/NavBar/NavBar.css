@@ -1,9 +1,10 @@
 .NavBar{
+  background-color: rgb(225, 225, 225);
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  margin: 1rem 2rem;
+  padding: 1rem 2rem;
   font-size: 0.8rem;
 }
 
@@ -32,7 +33,7 @@
 }
 
 #SearchInput{
-  padding: 0.5rem 0;
+  padding: 0.5rem;
   border: 0.1rem solid black;
   border-right: none;
   border-radius: 0.2rem 0 0 0.2rem;
@@ -41,7 +42,7 @@
 }
 
 #SearchSubmitButton{
-  padding: 0.5rem 0;
+  padding: 0.5rem;
   border: 0.1rem solid black;
   border-left: none;
   border-radius: 0 0.2rem 0.2rem 0;

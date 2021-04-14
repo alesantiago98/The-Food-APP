@@ -21,6 +21,11 @@
   border: none;
 }
 
+.DropdownButton:hover{
+  outline: none;
+  background-color: rgb(206, 194, 69);
+}
+
 .Ordering, .Filtering {
   position: relative;
   display: inline-block;

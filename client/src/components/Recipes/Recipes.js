@@ -3,26 +3,31 @@ import './Recipes.css'
 import Recipe from '../Recipe/Recipe';
 import { connect } from 'react-redux';
 import foodvectorillustration from '../../img/foodvectorillustration.jpg';
-import { getRecipes, getDiets} from '../../redux/Actions'
 
-function Recipes({ getRecipes, getDiets, allRecipes, diets, searchedRecipes }) {
+function Recipes({ location, allRecipes, searchedRecipes, diets }) {
   const [recipes, setRecipes] = useState([]);
+  const [page, setPage] = useState(0);
   useEffect(() => {
-    getRecipes();
-    getDiets();
-  }, [getRecipes, getDiets])
-  useEffect(() => {
-    if (searchedRecipes.length > 0) {
-      setRecipes(searchedRecipes)
+    if (location.search[location.search.length - 1] !== undefined) {
+      setPage(location.search[location.search.length - 1]);
     }
     else {
-      setRecipes(allRecipes)
+      setPage(1);
     }
-  }, [allRecipes, searchedRecipes])
-  function handleOrder(param) {
+  }, [location.search])
+  useEffect(() => {
+    if (searchedRecipes.length > 0) {
+      setRecipes(searchedRecipes.slice((page - 1) * 9, page * 9))
+    }
+    else {
+      setRecipes(allRecipes.slice((page - 1) * 9, page * 9))
+    }
+  }, [allRecipes, searchedRecipes, page])
+
+  function handleOrder(array, param) {
     switch (param) {
       case 'A-Z':
-        return setRecipes([...allRecipes].sort((a, b) => {
+        return [...array].sort((a, b) => {
           if (a.name > b.name) {
             return 1;
           }
@@ -30,9 +35,9 @@ function Recipes({ getRecipes, getDiets, allRecipes, diets, searchedRecipes }) {
             return -1;
           }
           return 0;
-        }));
+        })
       case 'Z-A':
-        return setRecipes([...allRecipes].sort((a, b) => {
+        return [...array].sort((a, b) => {
           if (b.name > a.name) {
             return 1;
           }
@@ -40,39 +45,39 @@ function Recipes({ getRecipes, getDiets, allRecipes, diets, searchedRecipes }) {
             return -1;
           }
           return 0;
-        }));
+        })
       case 'BestScore':
-        return setRecipes([...allRecipes].sort((a, b) => { return b.score - a.score }))
+        return [...array].sort((a, b) => { return b.score - a.score })
       case 'WorstScore':
-        return setRecipes([...allRecipes].sort((a, b) => { return a.score - b.score }))
+        return [...array].sort((a, b) => { return a.score - b.score })
       default:
-        return allRecipes;
+        return [...array];
     }
   }
-  function handleFilter(param) {
+  function handleFilter(array, param) {
     switch (param) {
       case 'Gluten Free':
-        return setRecipes(allRecipes.filter(r => r.diet.includes('Gluten Free'.toLowerCase())))
+        return array.filter(r => r.diet.includes('Gluten Free'.toLowerCase()))
       case 'Ketogenic':
-        return setRecipes(allRecipes.filter(r => r.diet.includes('Ketogenic'.toLowerCase())))
+        return array.filter(r => r.diet.includes('Ketogenic'.toLowerCase()))
       case 'Vegetarian':
-        return setRecipes(allRecipes.filter(r => r.diet.includes('Vegetarian'.toLowerCase())))
-      case 'Lacto Vegetarian':
-        return setRecipes(allRecipes.filter(r => r.diet.includes('Lacto Vegetarian'.toLowerCase())))
-      case 'Ovo Vegetarian':
-        return setRecipes(allRecipes.filter(r => r.diet.includes('Ovo Vegetarian'.toLowerCase())))
+        return array.filter(r => r.diet.includes('Vegetarian'.toLowerCase()))
+      case 'Lacto Ovo Vegetarian':
+        return array.filter(r => r.diet.includes('Lacto Ovo Vegetarian'.toLowerCase()))
+      case 'Diary Free':
+        return array.filter(r => r.diet.includes('Diary Free'.toLowerCase()))
       case 'Vegan':
-        return setRecipes(allRecipes.filter(r => r.diet.includes('Vegan'.toLowerCase())))
-      case 'Pescetarian':
-        return setRecipes(allRecipes.filter(r => r.diet.includes('Pescetarian'.toLowerCase())))
+        return array.filter(r => r.diet.includes('Vegan'.toLowerCase()))
+      case 'Pescatarian':
+        return array.filter(r => r.diet.includes('Pescatarian'.toLowerCase()))
       case 'Paleolithic':
-        return setRecipes(allRecipes.filter(r => r.diet.includes('Paleolithic'.toLowerCase())))
+        return array.filter(r => r.diet.includes('Paleolithic'.toLowerCase()))
       case 'Primal':
-        return setRecipes(allRecipes.filter(r => r.diet.includes('Primal'.toLowerCase())))
+        return array.filter(r => r.diet.includes('Primal'.toLowerCase()))
       case 'Whole 30':
-        return setRecipes(allRecipes.filter(r => r.diet.includes('Whole 30'.toLowerCase())))
+        return array.filter(r => r.diet.includes('Whole 30'.toLowerCase()))
       default:
-        return allRecipes;
+        return [...array];
     }
   }
   return (
@@ -81,22 +86,30 @@ function Recipes({ getRecipes, getDiets, allRecipes, diets, searchedRecipes }) {
         <div className='Ordering'>
           <button className='DropdownButton'>Order</button>
           <div className='Orders'>
-            <button onClick={() => { setRecipes([]); handleOrder('A-Z') }}>A - Z</button>
-            <button onClick={() => { setRecipes([]); handleOrder('Z-A') }}>Z - A</button>
-            <button onClick={() => { setRecipes([]); handleOrder('BestScore') }}>Best Score</button>
-            <button onClick={() => { setRecipes([]); handleOrder('WorstScore') }}>Worst Score</button>
+            <button onClick={() => { setRecipes(handleOrder(allRecipes, '').slice((page - 1) * 9, page * 9)) }}>More Relevants</button>
+            <button onClick={() => { setRecipes(handleOrder(allRecipes, 'A-Z').slice((page - 1) * 9, page * 9)) }}>A - Z</button>
+            <button onClick={() => { setRecipes(handleOrder(allRecipes, 'Z-A').slice((page - 1) * 9, page * 9)) }}>Z - A</button>
+            <button onClick={() => { setRecipes(handleOrder(allRecipes, 'BestScore').slice((page - 1) * 9, page * 9)) }}>Best Score</button>
+            <button onClick={() => { setRecipes(handleOrder(allRecipes, 'WorstScore').slice((page - 1) * 9, page * 9)) }}>Worst Score</button>
           </div>
         </div>
         <div className='Filtering'>
           <button className='DropdownButton'>Filter</button>
           <div className='Filters'>
-            {diets.map(d => <button key={d.name} onClick={() => { setRecipes([]); handleFilter(d.name) }}>{d.name}</button>)}
+            <button onClick={() => { setRecipes(handleFilter(allRecipes, '').slice((page - 1) * 9, page * 9)) }}>Clean Filters</button>
+            {diets.map(d => <button key={d.name}
+              onClick={() => { setRecipes(handleFilter(allRecipes, d.name).slice((page - 1) * 9, page * 9)) }}>{d.name}</button>)}
           </div>
+        </div>
+        <div>
+          <button className='DropdownButton'
+            onClick={() => setRecipes(allRecipes.slice((page - 1) * 9, page * 9))}>
+            Clear Search
+            </button>
         </div>
       </div>
       <div id='Recipes'>
-        {console.log(recipes)}
-        {recipes.map(r => <div key={r.name + r.id}>
+        {recipes.length > 0 ? recipes.map(r => <div key={r.name + r.id}>
           <Recipe
             id={r.id}
             name={r.name}
@@ -104,7 +117,10 @@ function Recipes({ getRecipes, getDiets, allRecipes, diets, searchedRecipes }) {
             diet={r.diet}
             score={r.score}
           />
-        </div>)}
+        </div>) :
+          <div>
+            There are no recipes
+        </div>}
       </div>
     </div>
   )
@@ -118,11 +134,4 @@ function mapStateToProps(state) {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    getRecipes: () => dispatch(getRecipes()),
-    getDiets: () => dispatch(getDiets())
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Recipes)
+export default connect(mapStateToProps, null)(Recipes)

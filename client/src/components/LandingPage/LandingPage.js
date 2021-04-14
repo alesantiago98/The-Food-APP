@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './LandingPage.css';
 import { Link } from 'react-router-dom';
+import { getRecipes, getDiets} from '../../redux/Actions';
+import { connect } from 'react-redux';
 
-export default function LandingPage ( {getRecipes, getDiets}) {
+function LandingPage ( {getRecipes, getDiets}) {
+  useEffect(() => {
+    getRecipes();
+    getDiets();
+  }, [getRecipes, getDiets])
   return (
     <div className='LandingPage'>
       <div id='info'>
@@ -16,3 +22,12 @@ export default function LandingPage ( {getRecipes, getDiets}) {
     </div>
   )
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getRecipes: () => dispatch(getRecipes()),
+    getDiets: () => dispatch(getDiets())
+  }
+}
+
+export default connect(null, mapDispatchToProps)(LandingPage)

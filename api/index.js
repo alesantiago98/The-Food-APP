@@ -37,19 +37,19 @@ conn.sync({ force: true }).then(() => {
       description: 'No ingredients may contain meat or meat by-products, such as bones or gelatin.'
     });
     const lactovegetarian = Diet.create({
-      name: 'Lacto Vegetarian',
+      name: 'Lacto Ovo Vegetarian',
       description: 'All ingredients must be vegetarian and none of the ingredients can be or contain egg.'
     });
     const ovovegetarian = Diet.create({
-      name: 'Ovo Vegetarian',
-      description: 'All ingredients must be vegetarian and none of the ingredients can be or contain dairy.'
+      name: 'Dairy Free',
+      description: 'None of the ingridients can be or contain dairy.'
     });
     const vegan = Diet.create({
       name: 'Vegan',
       description: 'No ingredients may contain meat or meat by-products, such as bones or gelatin, nor may they contain eggs, dairy, or honey.'
     });
     const pescetarian = Diet.create({
-      name: 'Pescetarian',
+      name: 'Pescatarian',
       description: 'Everything is allowed except meat and meat by-products - some pescetarians eat eggs and dairy, some do not.'
     });
     const paleo = Diet.create({
