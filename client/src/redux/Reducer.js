@@ -17,7 +17,7 @@ export default function Reducer(state = initialState, action) {
     case 'SEARCH_RECIPES':
       return {
         ...state,
-        searchedRecipes: state.searchedRecipes.concat(action.payload)
+        searchedRecipes: action.payload
       }
     case 'SEARCH_RECIPE_DETAIL':
       return {

@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import './LandingPage.css';
 import { Link } from 'react-router-dom';
-import { getRecipes, getDiets} from '../../redux/Actions';
+import { getRecipes, getDiets } from '../../redux/Actions';
 import { connect } from 'react-redux';
 
-function LandingPage ( {getRecipes, getDiets}) {
+function LandingPage ( { getRecipes, getDiets }) {
   useEffect(() => {
-    getRecipes();
+    getRecipes()
     getDiets();
   }, [getRecipes, getDiets])
   return (
@@ -25,8 +25,8 @@ function LandingPage ( {getRecipes, getDiets}) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getRecipes: () => dispatch(getRecipes()),
-    getDiets: () => dispatch(getDiets())
+    getDiets: () => dispatch(getDiets()),
+    getRecipes: () => dispatch(getRecipes())
   }
 }
 

@@ -15,9 +15,10 @@ export function getRecipes() {
   };
 };
 
-export function searchRecipes(recipe, page) {
-  return function (dispatch) {
-    axios.get(`http://localhost:3001/recipe?name=${recipe}&page=${page}`)
+export function searchRecipes(recipe) {
+  if(recipe !== '') {
+    return function (dispatch) {
+    axios.get(`http://localhost:3001/recipe?name=${recipe}`)
       .then(res => dispatch({
         type: 'SEARCH_RECIPES',
         payload: res.data
@@ -25,6 +26,12 @@ export function searchRecipes(recipe, page) {
       ).catch(err => {
         console.error(err)
       });
+    };
+  } else {
+    return {
+      type: 'SEARCH_RECIPES',
+      payload: []
+    }
   };
 };
 
@@ -43,8 +50,7 @@ export function searchRecipeDetail(recipeId) {
 
 export function addRecipe({ name, summary, score, healthyFoodLevel, stepByStep, diets }) {
   return function (dispatch) {
-    const Recipe = { name, summary, score, healthyFoodLevel, stepByStep, diets }
-    console.log(Recipe)
+    const Recipe = { name, summary, score, healthyFoodLevel, stepByStep, diets };
     axios.post('http://localhost:3001/recipe/', Recipe)
       .then(res => dispatch({
         type: 'ADD_RECIPE',

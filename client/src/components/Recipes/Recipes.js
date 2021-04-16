@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import './Recipes.css'
-import Recipe from '../Recipe/Recipe';
-import { connect } from 'react-redux';
 import foodvectorillustration from '../../img/foodvectorillustration.jpg';
+import cooking from '../../img/cooking.gif';
+import Recipe from '../Recipe/Recipe';
+import FilterBar from '../FilterBar/FilterBar';
+import Pages from '../Pages/Pages';
+import { searchRecipes } from '../../redux/Actions';
+import { connect } from 'react-redux';
 
-function Recipes({ location, allRecipes, searchedRecipes, diets }) {
+function Recipes({ location, allRecipes, searchedRecipes, searchRecipes }) {
   const [recipes, setRecipes] = useState([]);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   useEffect(() => {
-    if (location.search[location.search.length - 1] !== undefined) {
-      setPage(location.search[location.search.length - 1]);
-    }
-    else {
-      setPage(1);
+    if (location.search !== '') {
+      setPage(parseInt(location.search.slice(location.search.indexOf('=')+1)));
     }
   }, [location.search])
   useEffect(() => {
@@ -23,11 +24,14 @@ function Recipes({ location, allRecipes, searchedRecipes, diets }) {
       setRecipes(allRecipes.slice((page - 1) * 9, page * 9))
     }
   }, [allRecipes, searchedRecipes, page])
+  useEffect(() => {
+    return searchRecipes('')
+  }, [searchRecipes])
 
-  function handleOrder(array, param) {
+  function handleOrder(param) {
     switch (param) {
       case 'A-Z':
-        return [...array].sort((a, b) => {
+        return setRecipes([...allRecipes].sort((a, b) => {
           if (a.name > b.name) {
             return 1;
           }
@@ -35,9 +39,9 @@ function Recipes({ location, allRecipes, searchedRecipes, diets }) {
             return -1;
           }
           return 0;
-        })
+        }).slice((page - 1) * 9, page * 9))
       case 'Z-A':
-        return [...array].sort((a, b) => {
+        return setRecipes([...allRecipes].sort((a, b) => {
           if (b.name > a.name) {
             return 1;
           }
@@ -45,69 +49,28 @@ function Recipes({ location, allRecipes, searchedRecipes, diets }) {
             return -1;
           }
           return 0;
-        })
+        }).slice((page - 1) * 9, page * 9))
       case 'BestScore':
-        return [...array].sort((a, b) => { return b.score - a.score })
+        return setRecipes([...allRecipes].sort((a, b) => { return b.score - a.score }).slice((page - 1) * 9, page * 9))
       case 'WorstScore':
-        return [...array].sort((a, b) => { return a.score - b.score })
+        return setRecipes([...allRecipes].sort((a, b) => { return a.score - b.score }).slice((page - 1) * 9, page * 9))
       default:
-        return [...array];
+        return setRecipes([...allRecipes].slice((page -1) * 9, page * 9))
     }
   }
-  function handleFilter(array, param) {
-    switch (param) {
-      case 'Gluten Free':
-        return array.filter(r => r.diet.includes('Gluten Free'.toLowerCase()))
-      case 'Ketogenic':
-        return array.filter(r => r.diet.includes('Ketogenic'.toLowerCase()))
-      case 'Vegetarian':
-        return array.filter(r => r.diet.includes('Vegetarian'.toLowerCase()))
-      case 'Lacto Ovo Vegetarian':
-        return array.filter(r => r.diet.includes('Lacto Ovo Vegetarian'.toLowerCase()))
-      case 'Diary Free':
-        return array.filter(r => r.diet.includes('Diary Free'.toLowerCase()))
-      case 'Vegan':
-        return array.filter(r => r.diet.includes('Vegan'.toLowerCase()))
-      case 'Pescatarian':
-        return array.filter(r => r.diet.includes('Pescatarian'.toLowerCase()))
-      case 'Paleolithic':
-        return array.filter(r => r.diet.includes('Paleolithic'.toLowerCase()))
-      case 'Primal':
-        return array.filter(r => r.diet.includes('Primal'.toLowerCase()))
-      case 'Whole 30':
-        return array.filter(r => r.diet.includes('Whole 30'.toLowerCase()))
-      default:
-        return [...array];
+  function handleFilter(param) {
+    if(param !== '') {
+      return setRecipes(allRecipes.filter(r => r.diet.includes(param.toLowerCase()))
+      .slice((page - 1) * 9, page * 9))
+    }
+    else {
+      return setRecipes([...allRecipes].slice((page -1) * 9, page * 9));
     }
   }
+
   return (
     <div>
-      <div id='OrderingAndFiltering'>
-        <div className='Ordering'>
-          <button className='DropdownButton'>Order</button>
-          <div className='Orders'>
-            <button onClick={() => { setRecipes(handleOrder(allRecipes, '').slice((page - 1) * 9, page * 9)) }}>More Relevants</button>
-            <button onClick={() => { setRecipes(handleOrder(allRecipes, 'A-Z').slice((page - 1) * 9, page * 9)) }}>A - Z</button>
-            <button onClick={() => { setRecipes(handleOrder(allRecipes, 'Z-A').slice((page - 1) * 9, page * 9)) }}>Z - A</button>
-            <button onClick={() => { setRecipes(handleOrder(allRecipes, 'BestScore').slice((page - 1) * 9, page * 9)) }}>Best Score</button>
-            <button onClick={() => { setRecipes(handleOrder(allRecipes, 'WorstScore').slice((page - 1) * 9, page * 9)) }}>Worst Score</button>
-          </div>
-        </div>
-        <div className='Filtering'>
-          <button className='DropdownButton'>Filter</button>
-          <div className='Filters'>
-            <button onClick={() => { setRecipes(handleFilter(allRecipes, '').slice((page - 1) * 9, page * 9)) }}>Clean Filters</button>
-            {diets.map(d => <button key={d.name}
-              onClick={() => { setRecipes(handleFilter(allRecipes, d.name).slice((page - 1) * 9, page * 9)) }}>{d.name}</button>)}
-          </div>
-        </div>
-        <div>
-          <button className='DropdownButton'
-            onClick={() => setRecipes(allRecipes.slice((page - 1) * 9, page * 9))}>
-            Clear Search
-            </button>
-        </div>
-      </div>
+      <FilterBar filter={handleFilter} order={handleOrder} />
       <div id='Recipes'>
         {recipes.length > 0 ? recipes.map(r => <div key={r.name + r.id}>
           <Recipe
@@ -119,8 +82,9 @@ function Recipes({ location, allRecipes, searchedRecipes, diets }) {
           />
         </div>) :
           <div>
-            There are no recipes
+            <img src={cooking} alt='cooking gif' />
         </div>}
+        <Pages allRecipes={allRecipes} page={page} />
       </div>
     </div>
   )
@@ -134,4 +98,10 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, null)(Recipes)
+function mapDispatchToProps(dispatch) {
+  return {
+    searchRecipes: (data) => dispatch(searchRecipes(data))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Recipes)

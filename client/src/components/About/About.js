@@ -3,11 +3,11 @@ import './About.css'
 
 export default function About() {
   return (
-    <div>
+    <div className='AboutContainer'>
       <h3>The Food App</h3>
       <hr/>
       <div className='AboutInfo'>
-      <p>Recipes app created with React, Redux, Express and PostgreSQL.</p>
+      <p>Recipes app created with React, Redux, Express, Sequelize and PostgreSQL.</p>
       <p>On the homepage you'll have several recipes and can search any recipes by name 
         and it will show some results with basic info of the recipes.</p>
       <p>Every card has a More Info button that will show you a new page 

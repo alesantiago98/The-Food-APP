@@ -42,6 +42,7 @@
 }
 
 #SearchSubmitButton{
+  outline: none;
   padding: 0.5rem;
   border: 0.1rem solid black;
   border-left: none;

@@ -33,7 +33,7 @@ function Recipe(props) {
     <div className='Recipe' >
       <h3 className='RecipeName'>{props.name}</h3>
       <div className='RecipeInfo'><div className='Diets'>
-        {props.diets.filter(d => props.diet.includes(d.name.toLowerCase()))
+        {props.diets.filter(d => {return props.diet.includes(d.name.toLowerCase()) || props.diet.find(diet => d.name === diet.name)})
           .map(d => <span className='diets' key={props.name + d.name}>{d.name}</span>)}
       </div>
       <div>Score: {props.score}</div>

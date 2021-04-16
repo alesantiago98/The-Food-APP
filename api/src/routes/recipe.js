@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
   //Imagen, Nombre, Tipo de dieta (vegetariano, vegano, apto celíaco, etc)
   let { name } = req.query;
   if (name) {
-    const apiRecipes = axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&query=${name}`)
+    const apiRecipes = axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&number=100&addRecipeInformation=true&query=${name}`)
     const dbRecipes = Recipe.findAll({
       where: {
         name: {
@@ -74,7 +74,7 @@ router.get('/:recipeId', (req, res) => {
           id: response.data.id,
           img: response.data.image,
           name: response.data.title,
-          diet: response.data.diets,
+          diets: response.data.diets,
           summary: response.data.summary,
           healthyFoodLevel: response.data.healthScore,
           score: response.data.spoonacularScore,

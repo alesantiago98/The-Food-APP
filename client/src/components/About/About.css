@@ -1,6 +1,16 @@
+.AboutContainer{
+  width: 60%;
+  height: 30rem;
+  margin: 4rem auto;
+  background-color: rgba(240, 240, 240, 0.8);
+  border-radius: 1rem;
+  border: 0.1rem solid rgba(255, 255, 255, 0.4);
+  color: rgb(70, 70, 70);
+  box-shadow: 0.2rem 0.2rem 1rem rgba(20, 20, 20, 0.8);
+}
 .AboutInfo{
   width: 70%;
-  margin: 0 10%;
+  margin: 10% auto;
   text-align: justify;
 }
 hr{

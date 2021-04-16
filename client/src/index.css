@@ -12,7 +12,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-input, button {
+input, button, textarea {
   font-family: inherit;
 }
 
