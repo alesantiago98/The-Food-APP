@@ -1,0 +1,58 @@
+.NavBar{
+  background-color: rgb(225, 225, 225);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 1rem 2rem;
+  font-size: 0.8rem;
+}
+
+.Links{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Home, .About, .Favorites, .NewRecipe {
+  margin: 0 1rem;
+}
+
+.Home:hover, .About:hover, .Favorites:hover, .NewRecipe:hover {
+  border-bottom: 0.15rem solid rgba(0, 0, 0, 0.4);
+  padding-bottom: 0.2rem ;
+  transition: padding-bottom 0.3s linear;
+}
+
+.Form{
+  width: 20rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+
+#SearchInput{
+  padding: 0.5rem;
+  border: 0.1rem solid black;
+  border-right: none;
+  border-radius: 0.2rem 0 0 0.2rem;
+  outline: none;
+  margin-bottom: 0.5rem;
+}
+
+#SearchSubmitButton{
+  outline: none;
+  padding: 0.5rem;
+  border: 0.1rem solid black;
+  border-left: none;
+  border-radius: 0 0.2rem 0.2rem 0;
+}
+
+#SearchSubmitButton:hover {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.Logo{
+  width: 1.5rem;
+}

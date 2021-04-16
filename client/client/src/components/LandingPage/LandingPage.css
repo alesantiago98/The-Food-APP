@@ -1,0 +1,32 @@
+.LandingPage{
+  height: 100vh;
+  background-image: url('../../img/toa-heftiba-oQvESMKUkzM-unsplash.jpg');
+  background-repeat: no-repeat;
+  background-size: cover; 
+  background-position: 50% 25% ;
+  position: relative;
+}
+.Link{
+  text-decoration: none;
+  color: inherit;
+}
+#info{
+  position: absolute;
+  top: 25%;
+  left: 38%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+#HomeButton{
+  background-color: rgb(40, 40, 40);
+  color: rgb(230, 230, 230);
+  outline: none;
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+  border: none;
+}
+#AppTitle{
+  color: rgb(8,8,3)
+}
