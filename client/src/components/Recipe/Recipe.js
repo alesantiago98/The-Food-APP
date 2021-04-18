@@ -17,7 +17,13 @@ function Recipe(props) {
   }, [active, props.id, props.favorites])
 
   function toggle() {
-    setActive(!active)
+    if(props.user.email !== undefined) {
+      setActive(!active);
+      addRecipeToFavorites();
+    }
+    else {
+      alert('You must be logged in!')
+    }
   }
 
   function addRecipeToFavorites() {
@@ -42,7 +48,7 @@ function Recipe(props) {
       <Link to={`/recipe/${props.id}`}>
         <button onClick={() => props.searchRecipeDetail(props.id)} className='MoreInfo'>More Info</button>
       </Link>
-      <button className='ButtonFavorite' onClick={() => { addRecipeToFavorites(); toggle() }}>
+      <button className='ButtonFavorite' onClick={() => { toggle() }}>
         <img className={active ? 'active' : 'inactive'} src={staricon} alt='favorite icon' />
       </button>
     </div>
@@ -53,6 +59,7 @@ function mapStateToProps(state) {
   return {
     favorites: state.favoriteRecipes,
     diets: state.allDiets,
+    user: state.user
   }
 }
 

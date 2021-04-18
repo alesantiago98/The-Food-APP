@@ -5,11 +5,12 @@ import Recipes from './components/Recipes/Recipes';
 import About from './components/About/About';
 import Favorites from './components/Favorites/Favorites'
 import RecipeDetails from './components/RecipeDetails/RecipeDetails';
-import { Route } from 'react-router-dom';
 import NewRecipe from './components/NewRecipes/NewRecipe';
+import Login from './components/Login/Login';
+import { Route } from 'react-router-dom';
 
 function App() {
-  const routes = ['/home', '/about', '/favorites', '/recipe/:recipeId', '/newRecipe']
+  const routes = ['/home', '/about', '/favorites', '/recipe/:recipeId', '/newRecipe', '/login']
   return (
     <div className="App">
       <Route exact path='/' component={LandingPage} />
@@ -19,6 +20,7 @@ function App() {
       <Route path={routes[2]} component={Favorites} />
       <Route path={routes[3]} component={RecipeDetails} />
       <Route path={routes[4]} component={NewRecipe} />
+      <Route path={routes[5]} component={Login} />
     </div>
   );
 }

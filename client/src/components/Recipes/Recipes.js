@@ -5,10 +5,10 @@ import cooking from '../../img/cooking.gif';
 import Recipe from '../Recipe/Recipe';
 import FilterBar from '../FilterBar/FilterBar';
 import Pages from '../Pages/Pages';
-import { searchRecipes } from '../../redux/Actions';
+import { getUserRecipe, searchRecipes } from '../../redux/Actions';
 import { connect } from 'react-redux';
 
-function Recipes({ location, allRecipes, searchedRecipes, searchRecipes }) {
+function Recipes({ location, allRecipes, searchedRecipes, searchRecipes, getUserRecipe }) {
   const [recipes, setRecipes] = useState([]);
   const [page, setPage] = useState(1);
   useEffect(() => {
@@ -18,12 +18,12 @@ function Recipes({ location, allRecipes, searchedRecipes, searchRecipes }) {
   }, [location.search])
   useEffect(() => {
     if (searchedRecipes.length > 0) {
-      setRecipes(searchedRecipes.slice((page - 1) * 9, page * 9))
+      setRecipes(searchedRecipes)
     }
     else {
-      setRecipes(allRecipes.slice((page - 1) * 9, page * 9))
+      setRecipes(allRecipes)
     }
-  }, [allRecipes, searchedRecipes, page])
+  }, [allRecipes, searchedRecipes])
   useEffect(() => {
     return searchRecipes('')
   }, [searchRecipes])
@@ -39,7 +39,7 @@ function Recipes({ location, allRecipes, searchedRecipes, searchRecipes }) {
             return -1;
           }
           return 0;
-        }).slice((page - 1) * 9, page * 9))
+        }))
       case 'Z-A':
         return setRecipes([...allRecipes].sort((a, b) => {
           if (b.name > a.name) {
@@ -49,30 +49,30 @@ function Recipes({ location, allRecipes, searchedRecipes, searchRecipes }) {
             return -1;
           }
           return 0;
-        }).slice((page - 1) * 9, page * 9))
+        }))
       case 'BestScore':
-        return setRecipes([...allRecipes].sort((a, b) => { return b.score - a.score }).slice((page - 1) * 9, page * 9))
+        return setRecipes([...allRecipes].sort((a, b) => { return b.score - a.score }))
       case 'WorstScore':
-        return setRecipes([...allRecipes].sort((a, b) => { return a.score - b.score }).slice((page - 1) * 9, page * 9))
+        return setRecipes([...allRecipes].sort((a, b) => { return a.score - b.score }))
       default:
-        return setRecipes([...allRecipes].slice((page -1) * 9, page * 9))
+        return setRecipes([...allRecipes])
     }
   }
   function handleFilter(param) {
     if(param !== '') {
       return setRecipes(allRecipes.filter(r => r.diet.includes(param.toLowerCase()))
-      .slice((page - 1) * 9, page * 9))
+      )
     }
     else {
-      return setRecipes([...allRecipes].slice((page -1) * 9, page * 9));
+      return setRecipes([...allRecipes]);
     }
   }
 
   return (
     <div>
-      <FilterBar filter={handleFilter} order={handleOrder} />
+      <FilterBar filter={handleFilter} order={handleOrder} userRecipes={getUserRecipe}/>
       <div id='Recipes'>
-        {recipes.length > 0 ? recipes.map(r => <div key={r.name + r.id}>
+        {recipes.length > 0 ? recipes.slice((page - 1) * 9, page * 9).map(r => <div key={r.name + r.id}>
           <Recipe
             id={r.id}
             name={r.name}
@@ -84,7 +84,7 @@ function Recipes({ location, allRecipes, searchedRecipes, searchRecipes }) {
           <div>
             <img src={cooking} alt='cooking gif' />
         </div>}
-        <Pages allRecipes={allRecipes} page={page} />
+        <Pages allRecipes={recipes} page={page} />
       </div>
     </div>
   )
@@ -100,7 +100,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    searchRecipes: (data) => dispatch(searchRecipes(data))
+    searchRecipes: (data) => dispatch(searchRecipes(data)),
+    getUserRecipe: (id) => dispatch(getUserRecipe(id))
   }
 }
 

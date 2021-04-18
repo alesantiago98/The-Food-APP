@@ -4,7 +4,8 @@ const initialState = {
   searchedRecipes: [],
   recipeDetail: {},
   addedRecipe: {},
-  favoriteRecipes: []
+  favoriteRecipes: [],
+  user: {}
 }
 
 export default function Reducer(state = initialState, action) {
@@ -43,6 +44,26 @@ export default function Reducer(state = initialState, action) {
       return {
         ...state,
         allDiets: (action.payload)
+      }
+    case 'ADD_USER':
+      return {
+        ...state,
+        user: action.payload
+      }
+    case 'LOGIN':
+      return {
+        ...state,
+        user: action.payload
+      }
+    case 'LOGOUT':
+      return {
+        ...state,
+        user: action.payload
+      }
+    case 'USER_RECIPES':
+      return {
+        ...state,
+        searchedRecipes: action.payload
       }
     default:
       return state;

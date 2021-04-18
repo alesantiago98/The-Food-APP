@@ -16,16 +16,16 @@ export function getRecipes() {
 };
 
 export function searchRecipes(recipe) {
-  if(recipe !== '') {
+  if (recipe !== '') {
     return function (dispatch) {
-    axios.get(`http://localhost:3001/recipe?name=${recipe}`)
-      .then(res => dispatch({
-        type: 'SEARCH_RECIPES',
-        payload: res.data
-      })
-      ).catch(err => {
-        console.error(err)
-      });
+      axios.get(`http://localhost:3001/recipe?name=${recipe}`)
+        .then(res => dispatch({
+          type: 'SEARCH_RECIPES',
+          payload: res.data
+        })
+        ).catch(err => {
+          console.error(err)
+        });
     };
   } else {
     return {
@@ -48,9 +48,9 @@ export function searchRecipeDetail(recipeId) {
   };
 };
 
-export function addRecipe({ name, summary, score, healthyFoodLevel, stepByStep, diets }) {
+export function addRecipe({ user, name, summary, score, healthyFoodLevel, stepByStep, diets }) {
   return function (dispatch) {
-    const Recipe = { name, summary, score, healthyFoodLevel, stepByStep, diets };
+    const Recipe = { user, name, summary, score, healthyFoodLevel, stepByStep, diets };
     axios.post('http://localhost:3001/recipe/', Recipe)
       .then(res => dispatch({
         type: 'ADD_RECIPE',
@@ -81,6 +81,66 @@ export function getDiets() {
     axios.get(`http://localhost:3001/types`)
       .then(res => dispatch({
         type: 'ALL_DIETS',
+        payload: res.data
+      })
+      ).catch(err => {
+        console.error(err)
+      });
+  };
+};
+
+export function addUser({ name, email, password }) {
+  return function (dispatch) {
+    const user = { name, email, password };
+    axios.post('http://localhost:3001/user/register', user)
+      .then(res => dispatch({
+        type: 'ADD_USER',
+        payload: res.data
+      })
+      ).catch(err => {
+        console.error(err)
+      });
+  }
+}
+
+export function login({ email, password }) {
+  return function (dispatch) {
+    const user = { email, password }
+    axios.post('http://localhost:3001/user/login', user)
+      .then(res => {
+        if (res.data !== 'user not found') {
+          dispatch({
+            type: 'LOGIN',
+            payload: res.data
+          })
+        } else {
+          return alert('user not found');
+        }
+      }
+      ).catch(err => {
+        console.error(err)
+      });
+  }
+}
+
+export function logout() {
+  return function (dispatch) {
+    axios.post('http://localhost:3001/user/logout')
+      .then(res => dispatch({
+        type: 'LOGOUT',
+        payload: {}
+      })
+      ).catch(err => {
+        console.error(err)
+      });
+  }
+}
+
+export function getUserRecipe(email) {
+  return function (dispatch) {
+    axios.get(`http://localhost:3001/user/${email}`)
+      .then(res => dispatch({
+        type: 'USER_RECIPES',
         payload: res.data
       })
       ).catch(err => {

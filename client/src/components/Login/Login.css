@@ -1,0 +1,57 @@
+.LoginAndRegister{
+  width: 50%;
+  min-height: 35rem;
+  background-color: rgba(240, 240, 240, 0.8);
+  border-radius: 1rem;
+  border: 0.1rem solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0.2rem 0.2rem 1rem rgba(20, 20, 20, 0.8);
+  margin: 2rem auto;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.LoginForm{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 1rem auto;
+}
+
+.Registration {
+  text-decoration: underline;
+}
+
+.FormInput{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0.5rem 0;
+}
+
+.FormInput input{
+  width: 80%;
+  margin: 0.5rem 0;
+}
+
+.FormInput button {
+  padding: 0.5rem 1rem;
+}
+
+.RegisterButton {
+  padding: 0.5rem 0.75rem;
+  margin: 0.5rem 0;
+}
+
+.danger {
+  color: rgb(210, 40, 40);
+}
+
+.CookingImg{
+  width: 22rem;
+  border-radius: 1rem;
+  margin: auto 1rem;
+}

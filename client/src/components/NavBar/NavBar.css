@@ -14,14 +14,21 @@
   justify-content: center;
 }
 
-.Home, .About, .Favorites, .NewRecipe {
+.Home, .About, .Favorites, .NewRecipe, .Login {
   margin: 0 1rem;
 }
 
-.Home:hover, .About:hover, .Favorites:hover, .NewRecipe:hover {
+.Home:hover, .About:hover, .Favorites:hover, .NewRecipe:hover, .Login:hover {
   border-bottom: 0.15rem solid rgba(0, 0, 0, 0.4);
   padding-bottom: 0.2rem ;
   transition: padding-bottom 0.3s linear;
+}
+
+.LogoutButton{
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-size: inherit;
 }
 
 .Form{

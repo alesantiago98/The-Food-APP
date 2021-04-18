@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import './NewRecipe.css';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { addRecipe } from '../../redux/Actions';
 
 function NewRecipe(props) {
   const [form, setForm] = useState({
+    user: props.user.id,
     name: '',
     summary: '',
     score: 0,
@@ -12,12 +14,17 @@ function NewRecipe(props) {
     stepByStep: '',
     diets: []
   })
+
+
+
   function handleSubmit(e) {
     e.preventDefault();
+    console.log(form)
     props.addRecipe(form)
   }
   return (
     <div className='NewR'>
+      { props.user.email !== undefined ?
       <form className='RecipeForm' onSubmit={(e) => handleSubmit(e)}>
         <div className='NewRecipeForm'>
           <label className='LabelTitle'>Name:</label>
@@ -43,14 +50,19 @@ function NewRecipe(props) {
           />{d.name}</label>)}
           <button className='NewRecipeSubmitButton' type='submit'>Submit</button>
         </div>
-      </form>
+      </form> :
+      <div>
+      You must be logged in to submit a recipe...
+      <Link className='Link Login' to='/login'><button>Login</button></Link>
+      </div>}
     </div>
   )
 }
 
 function mapStateToProps(state) {
   return {
-    diets: state.allDiets
+    diets: state.allDiets,
+    user: state.user
   }
 }
 

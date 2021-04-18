@@ -31,13 +31,18 @@ function FilterBar (props) {
             <Link to='/home' className='Link'>Clear Search</Link>
             </button>
         </div>
+        {props.user.id !== undefined ?
+        <div>
+          <button className='DropdownButton' onClick={() => {props.userRecipes(props.user.id)}}>User Recipes</button>
+        </div> : null}
       </div>
   )
 }
 
 function mapStateToProps(state) {
   return {
-    diets: state.allDiets
+    diets: state.allDiets,
+    user: state.user
   }
 }
 

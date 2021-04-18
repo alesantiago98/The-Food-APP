@@ -1,9 +1,0 @@
-.Favorites{
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  flex-wrap: wrap;
-}
-hr{
-  width: 50%
-}

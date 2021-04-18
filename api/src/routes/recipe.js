@@ -1,4 +1,4 @@
-const { Recipe, Diet } = require('../db');
+const { Recipe, Diet, User } = require('../db');
 const { API_KEY } = process.env;
 const axios = require('axios');
 const router = require('express').Router();
@@ -91,11 +91,13 @@ router.get('/:recipeId', (req, res) => {
 });
 
 router.post('/', async (req, res) => {
+  const user = await User.findByPk(req.body.user);
   const { name, summary, score, healthyFoodLevel, stepByStep, diets } = req.body;
   const id = uuidv4();
   const newRecipe = { id, name, summary, score, healthyFoodLevel, stepByStep };
   const recipe = await Recipe.create(newRecipe);
   recipe.setDiets(diets);
+  recipe.setUser(user.id)
   res.send(recipe);
 });
 

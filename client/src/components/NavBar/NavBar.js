@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './NavBar.css';
 import { Link } from 'react-router-dom';
-import { searchRecipes } from '../../redux/Actions';
+import { logout, searchRecipes } from '../../redux/Actions';
 import { connect } from 'react-redux';
 import Logo from '../../img/logo.png';
 
@@ -23,6 +23,10 @@ function NavBar(props) {
         <Link className='Link About' to='/about'>About</Link>
         <Link className='Link Favorites' to='/favorites'>Favorites</Link>
         <Link className='Link NewRecipe' to='/newRecipe'>Add New Recipe</Link>
+        {props.user.name !== undefined ? 
+        <button className='LogoutButton' onClick={() => props.logout()}>Logout</button>
+        :
+        <Link className='Link Login' to='/login'>Login</Link>}
       </div>
       <div className='Form'>
         <form
@@ -38,12 +42,14 @@ function NavBar(props) {
 
 function mapStateToProps(state) {
   return {
-    recipes: state.searchedRecipes
+    recipes: state.searchedRecipes,
+    user: state.user
   }
 }
 function mapDispatchToProps(dispatch) {
   return {
-    searchRecipes: (recipe) => dispatch(searchRecipes(recipe))
+    searchRecipes: (recipe) => dispatch(searchRecipes(recipe)),
+    logout: () => dispatch(logout())
   }
 }
 
