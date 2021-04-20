@@ -73,7 +73,7 @@ function Register({addUser}) {
           )}
         </div>
         <div>
-          <button type='submit'>Submit</button>
+          <button onClick={() => alert('Registration Successful')}type='submit'>Submit</button>
         </div>
       </form>
   )

@@ -5,15 +5,15 @@ import cooking from '../../img/cooking.gif';
 import Recipe from '../Recipe/Recipe';
 import FilterBar from '../FilterBar/FilterBar';
 import Pages from '../Pages/Pages';
-import { getUserRecipe, searchRecipes } from '../../redux/Actions';
+import { searchRecipes } from '../../redux/Actions';
 import { connect } from 'react-redux';
 
-function Recipes({ location, allRecipes, searchedRecipes, searchRecipes, getUserRecipe }) {
+function Recipes({ location, allRecipes, searchedRecipes, searchRecipes }) {
   const [recipes, setRecipes] = useState([]);
   const [page, setPage] = useState(1);
   useEffect(() => {
     if (location.search !== '') {
-      setPage(parseInt(location.search.slice(location.search.indexOf('=')+1)));
+      setPage(parseInt(location.search.slice(location.search.indexOf('=') + 1)));
     }
   }, [location.search])
   useEffect(() => {
@@ -59,9 +59,14 @@ function Recipes({ location, allRecipes, searchedRecipes, searchRecipes, getUser
     }
   }
   function handleFilter(param) {
-    if(param !== '') {
-      return setRecipes(allRecipes.filter(r => r.diet.includes(param.toLowerCase()))
-      )
+    if (param) {
+      if (param === 'user') {
+        let pattern = /^[0-9]+$/
+        return setRecipes(allRecipes.filter(r => !pattern.test(r.id)))
+      }
+      else {
+        return setRecipes(allRecipes.filter(r => r.diet.includes(param.toLowerCase())))
+      }
     }
     else {
       return setRecipes([...allRecipes]);
@@ -70,7 +75,7 @@ function Recipes({ location, allRecipes, searchedRecipes, searchRecipes, getUser
 
   return (
     <div>
-      <FilterBar filter={handleFilter} order={handleOrder} userRecipes={getUserRecipe}/>
+      <FilterBar filter={handleFilter} order={handleOrder} />
       <div id='Recipes'>
         {recipes.length > 0 ? recipes.slice((page - 1) * 9, page * 9).map(r => <div key={r.name + r.id}>
           <Recipe
@@ -83,7 +88,7 @@ function Recipes({ location, allRecipes, searchedRecipes, searchRecipes, getUser
         </div>) :
           <div>
             <img src={cooking} alt='cooking gif' />
-        </div>}
+          </div>}
         <Pages allRecipes={recipes} page={page} />
       </div>
     </div>
@@ -100,8 +105,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    searchRecipes: (data) => dispatch(searchRecipes(data)),
-    getUserRecipe: (id) => dispatch(getUserRecipe(id))
+    searchRecipes: (data) => dispatch(searchRecipes(data))
   }
 }
 

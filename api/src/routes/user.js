@@ -8,16 +8,6 @@ router.post('/register', async (req, res) => {
   res.send(user);
 });
 
-router.get('/:id', async function (req, res) {
-  const user = await User.findByPk(req.params.id, { include: { all: true, nested: true }})
-  if (user === null) {
-    res.status(404).send({ message: 'The user could not be found' })
-  }
-  else {
-    res.send(user.recipes.map(r => r.dataValues))
-  }
-});
-
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
   if (email && password) {

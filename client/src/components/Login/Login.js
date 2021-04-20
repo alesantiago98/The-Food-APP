@@ -66,7 +66,7 @@ function Login ({ login }) {
         )}
       </div>
       <div className='FormInput'>
-        <button type='submit'>Submit</button>
+        <button onClick={() => alert('Login Successful')}type='submit'>Submit</button>
       </div>
     <button className='RegisterButton' onClick={() => setActive(!active)}>Register</button>
     </form>

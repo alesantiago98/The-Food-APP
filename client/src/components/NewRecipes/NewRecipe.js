@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import './NewRecipe.css';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { addRecipe } from '../../redux/Actions';
+import { addRecipe, getRecipes } from '../../redux/Actions';
 
 function NewRecipe(props) {
+  const [errors, setErrors] = useState({});
   const [form, setForm] = useState({
     user: props.user.id,
     name: '',
@@ -15,13 +16,35 @@ function NewRecipe(props) {
     diets: []
   })
 
-
-
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(form)
-    props.addRecipe(form)
+    props.addRecipe(form);
+    props.getRecipes();
+    alert('Recipe Created Successfully');
   }
+
+  const validate = (form) => {
+    let errors = {};
+    if (!form.name) {
+      errors.name = 'Name is required'; 
+    }
+    if (!form.summary) {
+      errors.summary = 'Summary is required';
+    }
+    return errors;
+  };
+
+  const handleInputChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value
+    });
+    setErrors(validate({
+      ...form,
+      [e.target.name]: e.target.value
+    }));
+  }
+
   return (
     <div className='NewR'>
       { props.user.email !== undefined ?
@@ -29,7 +52,8 @@ function NewRecipe(props) {
         <div className='NewRecipeForm'>
           <label className='LabelTitle'>Name:</label>
           <input type='text' name='name'
-            onChange={(e) => setForm({ ...form, name: e.target.value })} />
+            onChange={handleInputChange} />
+          {errors.name && (<p className="danger">{errors.name}</p>)}
           <label className='LabelTitle'>Score:</label>
           <input type='number' min='0' max='100' name='score'
             onChange={(e) => setForm({ ...form, score: e.target.value })} />
@@ -38,7 +62,8 @@ function NewRecipe(props) {
             onChange={(e) => setForm({ ...form, healthyFoodLevel: e.target.value })} />
           <label className='LabelTitle'>Summary:</label>
           <textarea name='summary'
-            onChange={(e) => setForm({ ...form, summary: e.target.value })} />
+            onChange={handleInputChange} />
+          {errors.summary && (<p className="danger">{errors.summary}</p>)}
           <label className='LabelTitle'>Step by Step:</label>
           <textarea name='step by step'
             onChange={(e) => setForm({ ...form, stepByStep: e.target.value })} />
@@ -48,12 +73,13 @@ function NewRecipe(props) {
           {props.diets.map(d => <label className='DietsLabel' key={d.name + d.id}><input type='checkbox' name={d.name} value={d.id}
             onChange={(e) => setForm({ ...form, diets: [...form.diets, e.target.value] })}
           />{d.name}</label>)}
-          <button className='NewRecipeSubmitButton' type='submit'>Submit</button>
+          {!errors.name && !errors.summary &&
+          <button className='NewRecipeSubmitButton' type='submit'>Submit</button>}
         </div>
       </form> :
-      <div>
-      You must be logged in to submit a recipe...
-      <Link className='Link Login' to='/login'><button>Login</button></Link>
+      <div className='NotLoggedIn'>
+      <p>You must be logged in to submit a recipe...</p>
+      <Link className='Link' to='/login'><button className='LoginButton'>Login</button></Link>
       </div>}
     </div>
   )
@@ -68,7 +94,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    addRecipe: info => dispatch(addRecipe(info))
+    addRecipe: info => dispatch(addRecipe(info)),
+    getRecipes: () => dispatch(getRecipes())
   }
 }
 

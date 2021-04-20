@@ -1,15 +1,7 @@
-<p align='left'>
-    <img src='https://static.wixstatic.com/media/85087f_0d84cbeaeb824fca8f7ff18d7c9eaafd~mv2.png/v1/fill/w_160,h_30,al_c,q_85,usm_0.66_1.00_0.01/Logo_completo_Color_1PNG.webp' </img>
-</p>
-
 # The Food APP 
 
-<p align="right">
-  <img height="200" src="./cooking.png" />
-</p>
-
-## Objetivos del Proyecto
 Recipes app created with React, Redux, Express, Sequelize and PostgreSQL.
+Info provided by the spoonacular api.
 
 On the homepage you'll have several recipes and can search any recipes by name and it will show some results with basic info of the recipes.
 

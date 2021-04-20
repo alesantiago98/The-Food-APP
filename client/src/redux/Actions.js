@@ -135,16 +135,3 @@ export function logout() {
       });
   }
 }
-
-export function getUserRecipe(email) {
-  return function (dispatch) {
-    axios.get(`http://localhost:3001/user/${email}`)
-      .then(res => dispatch({
-        type: 'USER_RECIPES',
-        payload: res.data
-      })
-      ).catch(err => {
-        console.error(err)
-      });
-  };
-};

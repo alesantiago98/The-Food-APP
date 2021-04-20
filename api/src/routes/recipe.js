@@ -40,7 +40,7 @@ router.get('/', (req, res) => {
   }
   else {
     const apiRecipes = axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=100`)
-    const dbRecipes = Recipe.findAll()
+    const dbRecipes = Recipe.findAll( { include: Diet })
     Promise.all([apiRecipes, dbRecipes])
       .then(r => {
         let [apiResponse, dbResponse] = r;
@@ -48,9 +48,9 @@ router.get('/', (req, res) => {
         const ultimateRecipes = response.map(r => ({
           id: r.id,
           img: r.image,
-          name: r.title,
-          diet: r.diets,
-          score: r.spoonacularScore
+          name: (r.name ? r.name : r.title),
+          diet: (r.diet ? r.diet : r.diets),
+          score: (r.score ? r.score : r.spoonacularScore) 
         }))
         res.send(ultimateRecipes)
       })

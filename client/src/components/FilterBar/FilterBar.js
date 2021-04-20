@@ -27,13 +27,13 @@ function FilterBar (props) {
         </div>
         <div>
           <button className='DropdownButton'
-            onClick={(e) => { e.preventDefault(); searchRecipes(''); props.filter(''); }}>
+            onClick={(e) => { e.preventDefault(); searchRecipes(''); props.filter(); }}>
             <Link to='/home' className='Link'>Clear Search</Link>
             </button>
         </div>
         {props.user.id !== undefined ?
         <div>
-          <button className='DropdownButton' onClick={() => {props.userRecipes(props.user.id)}}>User Recipes</button>
+          <button className='DropdownButton' onClick={() => {props.filter('user')}}>User Recipes</button>
         </div> : null}
       </div>
   )

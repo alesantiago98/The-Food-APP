@@ -63,13 +63,6 @@ describe('User routes', () => {
 
   beforeEach(() => User.sync({ force: true }));
 
-  describe('GET /:id', () => {
-    it('should get 200', () => {
-      agent.post('/user/register').send({ name: 'Alexandra', email: 'email@email.com', password: 'password.123' })
-      agent.get('/user/1').expect(200)
-    }).timeout(20000);
-  });
-
   describe('POST login', () => {
     it('should get 200', () => {
       agent.post('/user/register').send({ name: 'Alexandra', email: 'email@email.com', password: 'password.123' })

@@ -13,7 +13,7 @@ export default function Reducer(state = initialState, action) {
     case 'ALL_RECIPES':
       return {
         ...state,
-        allRecipes: state.allRecipes.concat(action.payload)
+        allRecipes: action.payload
       }
     case 'SEARCH_RECIPES':
       return {
@@ -59,11 +59,6 @@ export default function Reducer(state = initialState, action) {
       return {
         ...state,
         user: action.payload
-      }
-    case 'USER_RECIPES':
-      return {
-        ...state,
-        searchedRecipes: action.payload
       }
     default:
       return state;
