@@ -72,7 +72,7 @@ function Register({addUser}) {
             <p className="danger">{errors.password}</p>
           )}
         </div>
-        <div>
+        <div className='FormInput'>
           <button onClick={() => alert('Registration Successful')}type='submit'>Submit</button>
         </div>
       </form>

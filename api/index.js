@@ -22,7 +22,7 @@ const { conn, Diet } = require('./src/db.js');
 
 // Syncing all the models at once.
 conn.sync({ force: true }).then(() => {
-  server.listen(3001, () => {
+  server.listen(process.env.PORT || 3001, () => {
     console.log('Listening at 3001'); // eslint-disable-line no-console
     const glutenFree = Diet.create({
       name: 'Gluten Free',

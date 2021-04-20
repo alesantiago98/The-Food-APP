@@ -4,7 +4,7 @@ import axios from 'axios';
 
 export function getRecipes() {
   return function (dispatch) {
-    axios.get(`http://localhost:3001/recipe`)
+    axios.get('/recipe')
       .then(res => dispatch({
         type: 'ALL_RECIPES',
         payload: res.data
@@ -18,7 +18,7 @@ export function getRecipes() {
 export function searchRecipes(recipe) {
   if (recipe !== '') {
     return function (dispatch) {
-      axios.get(`http://localhost:3001/recipe?name=${recipe}`)
+      axios.get(`/recipe?name=${recipe}`)
         .then(res => dispatch({
           type: 'SEARCH_RECIPES',
           payload: res.data
@@ -37,7 +37,7 @@ export function searchRecipes(recipe) {
 
 export function searchRecipeDetail(recipeId) {
   return function (dispatch) {
-    axios.get(`http://localhost:3001/recipe/${recipeId}`)
+    axios.get(`/recipe/${recipeId}`)
       .then(res => dispatch({
         type: 'SEARCH_RECIPE_DETAIL',
         payload: res.data
@@ -51,7 +51,7 @@ export function searchRecipeDetail(recipeId) {
 export function addRecipe({ user, name, summary, score, healthyFoodLevel, stepByStep, diets }) {
   return function (dispatch) {
     const Recipe = { user, name, summary, score, healthyFoodLevel, stepByStep, diets };
-    axios.post('http://localhost:3001/recipe/', Recipe)
+    axios.post('/recipe/', Recipe)
       .then(res => dispatch({
         type: 'ADD_RECIPE',
         payload: res.data
@@ -78,7 +78,7 @@ export function removeFromFavorites(recipe) {
 
 export function getDiets() {
   return function (dispatch) {
-    axios.get(`http://localhost:3001/types`)
+    axios.get('/types')
       .then(res => dispatch({
         type: 'ALL_DIETS',
         payload: res.data
@@ -92,7 +92,7 @@ export function getDiets() {
 export function addUser({ name, email, password }) {
   return function (dispatch) {
     const user = { name, email, password };
-    axios.post('http://localhost:3001/user/register', user)
+    axios.post('/user/register', user)
       .then(res => dispatch({
         type: 'ADD_USER',
         payload: res.data
@@ -106,7 +106,7 @@ export function addUser({ name, email, password }) {
 export function login({ email, password }) {
   return function (dispatch) {
     const user = { email, password }
-    axios.post('http://localhost:3001/user/login', user)
+    axios.post('/user/login', user)
       .then(res => {
         if (res.data !== 'user not found') {
           dispatch({
@@ -125,7 +125,7 @@ export function login({ email, password }) {
 
 export function logout() {
   return function (dispatch) {
-    axios.post('http://localhost:3001/user/logout')
+    axios.post('/user/logout')
       .then(res => dispatch({
         type: 'LOGOUT',
         payload: {}
