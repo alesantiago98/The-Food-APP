@@ -31,7 +31,7 @@ function Recipes({ location, allRecipes, searchedRecipes, searchRecipes }) {
   function handleOrder(param) {
     switch (param) {
       case 'A-Z':
-        return setRecipes([...allRecipes].sort((a, b) => {
+        return setRecipes([...recipes].sort((a, b) => {
           if (a.name > b.name) {
             return 1;
           }
@@ -41,7 +41,7 @@ function Recipes({ location, allRecipes, searchedRecipes, searchRecipes }) {
           return 0;
         }))
       case 'Z-A':
-        return setRecipes([...allRecipes].sort((a, b) => {
+        return setRecipes([...recipes].sort((a, b) => {
           if (b.name > a.name) {
             return 1;
           }
@@ -51,9 +51,9 @@ function Recipes({ location, allRecipes, searchedRecipes, searchRecipes }) {
           return 0;
         }))
       case 'BestScore':
-        return setRecipes([...allRecipes].sort((a, b) => { return b.score - a.score }))
+        return setRecipes([...recipes].sort((a, b) => { return b.score - a.score }))
       case 'WorstScore':
-        return setRecipes([...allRecipes].sort((a, b) => { return a.score - b.score }))
+        return setRecipes([...recipes].sort((a, b) => { return a.score - b.score }))
       default:
         return setRecipes([...allRecipes])
     }
@@ -62,10 +62,10 @@ function Recipes({ location, allRecipes, searchedRecipes, searchRecipes }) {
     if (param) {
       if (param === 'user') {
         let pattern = /^[0-9]+$/
-        return setRecipes(allRecipes.filter(r => !pattern.test(r.id)))
+        return setRecipes(recipes.filter(r => !pattern.test(r.id)))
       }
       else {
-        return setRecipes(allRecipes.filter(r => r.diet.includes(param.toLowerCase())))
+        return setRecipes(recipes.filter(r => r.diet.includes(param.toLowerCase())))
       }
     }
     else {
