@@ -1,24 +1,27 @@
-const { Recipe, User, Diet } = require('../db');
+const { User } = require('../db');
 const router = require('express').Router();
+const bcrypt = require('bcrypt');
 
-router.post('/register', async (req, res) => {
-  const { name, email, password } = req.body;
-  const user = await User.create({ name, email, password });
-  res.cookie('userId', user.id);
-  res.send(user);
+router.post('/register', (req, res) => {
+  let { name, email, password } = req.body;
+  bcrypt.hash(password, 10, async function(err, hash) {
+    password = hash;
+    const user = await User.create({ name, email, password });
+    res.send(user);
+    if(err) {
+      console.error(err)
+    }
+  });
 });
 
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
   if (email && password) {
     const user = await User.findOne({ where: { email: email } });
-    if (user.password === password) {
-      res.cookie('userId', user.id);
-      return res.send(user)
-    }
-    else {
-      return res.send('user not found')
-    }
+    bcrypt.compare(password, user.password, function(err, result) {
+      if(result) return res.send(user);
+      else return res.send('user not found');
+    });
   }
   else {
     return res.send('input invalid')
